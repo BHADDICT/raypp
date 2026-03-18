@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us – ROTARY-ASEAN Youth Peace-building Programme Alumni Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --ink:    #0b1c2d;
+    --teal:   #2a9d8f;
+    --purple: #6b46c1;
+    --gray:   #4b5563;
+    --mist:   #f4f6fb;
+    --white:  #ffffff;
+    --border: #e0e4ed;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--mist);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ══════════════════════════════
+     TOP HEADER
+  ══════════════════════════════ */
+  .top-header {
+    background: var(--ink);
+    color: white;
+    padding: 12px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 2px 12px rgba(0,0,0,.4);
+  }
+  .header-inner { display: flex; align-items: center; gap: 16px; }
+  .header-inner img { height: 46px; }
+  .top-title {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════
+     HAMBURGER — mobile only
+  ══════════════════════════════ */
+  .hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 300;
+  }
+  .hamburger-btn span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+  }
+
+  /* ══════════════════════════════
+     DESKTOP NAVBAR
+  ══════════════════════════════ */
+  .navbar {
+    background: #e9ecef;
+    border-bottom: 1px solid #dcdfe3;
+    display: flex;
+    justify-content: center;
+  }
+  .navbar ul { list-style: none; display: flex; padding: 0; }
+  .navbar ul li a {
+    display: block;
+    padding: 14px 18px;
+    text-decoration: none;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #555;
+    transition: color .25s, background .25s;
+  }
+  .navbar ul li a:hover,
+  .navbar ul li a.active { color: var(--ink); background: rgba(0,0,0,0.06); }
+
+  /* ══════════════════════════════
+     OVERLAY
+  ══════════════════════════════ */
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 250;
+    pointer-events: none;
+    transition: background .35s;
+  }
+  .drawer-overlay.active {
+    background: rgba(0,0,0,0.45);
+    pointer-events: all;
+  }
+
+  /* ══════════════════════════════
+     SLIDE-IN DRAWER
+  ══════════════════════════════ */
+  .drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    z-index: 300;
+    transform: translateX(100%);
+    transition: transform .38s cubic-bezier(.4,0,.2,1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 40px rgba(0,0,0,.18);
+  }
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-head {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .drawer-head-left { display: flex; align-items: center; gap: 12px; }
+  .drawer-head-left img { height: 48px; width: 48px; object-fit: contain; }
+  .drawer-head-text .brand-top {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--teal);
+  }
+  .drawer-head-text .brand-name {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; color: var(--ink); font-weight: 700;
+  }
+  .drawer-close {
+    background: none; border: none; cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #555;
+    transition: background .2s, color .2s;
+    flex-shrink: 0;
+  }
+  .drawer-close:hover { background: #f0f0f0; color: var(--ink); }
+
+  .drawer-nav { flex: 1; padding: 8px 0; overflow-y: auto; }
+  .drawer-nav a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; text-decoration: none;
+    font-size: 15px; font-weight: 500; color: #222;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background .18s, color .18s;
+  }
+  .drawer-nav a:hover { background: #f8f9fa; color: var(--teal); }
+  .drawer-nav a.active { color: var(--teal); font-weight: 700; }
+  .drawer-nav a .chevron { font-size: 12px; color: #bbb; transition: transform .2s, color .2s; }
+  .drawer-nav a:hover .chevron,
+  .drawer-nav a.active .chevron { transform: translateX(3px); color: var(--teal); }
+
+  .drawer-foot {
+    padding: 18px 24px; border-top: 1px solid #f0f0f0;
+    display: flex; gap: 18px; justify-content: center;
+  }
+  .drawer-foot a { color: #999; font-size: 18px; text-decoration: none; transition: color .2s; }
+  .drawer-foot a:hover { color: var(--teal); }
+
+  /* ══════════════════════════════
+     HERO (CCTV)
+  ══════════════════════════════ */
+  .hero {
+    position: relative;
+    height: 60vh;
+    min-height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .cctv-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    background: #000;
+    z-index: 0;
+  }
+  .cctv-cell {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-color: #0d1a2e;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .cctv-cell.visible { opacity: 1; }
+  .cctv-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,8,30,0.52);
+    transition: background 0.3s;
+  }
+  .cctv-cell:hover .cctv-overlay { background: rgba(10,8,30,0.28); }
+  .cctv-label {
+    position: absolute;
+    bottom: 8px; left: 10px;
+    z-index: 2;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .cctv-flag { font-size: 16px; line-height: 1; }
+  .cctv-name {
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 1.2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+  .cctv-dot {
+    position: absolute;
+    top: 8px; right: 10px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 6px var(--teal);
+    z-index: 2;
+    animation: blink 2s ease-in-out infinite;
+  }
+  .cctv-cell:nth-child(2)  .cctv-dot { animation-delay: 0.3s; }
+  .cctv-cell:nth-child(3)  .cctv-dot { animation-delay: 0.6s; }
+  .cctv-cell:nth-child(4)  .cctv-dot { animation-delay: 0.9s; }
+  .cctv-cell:nth-child(5)  .cctv-dot { animation-delay: 1.2s; }
+  .cctv-cell:nth-child(6)  .cctv-dot { animation-delay: 0.15s; }
+  .cctv-cell:nth-child(7)  .cctv-dot { animation-delay: 0.45s; }
+  .cctv-cell:nth-child(8)  .cctv-dot { animation-delay: 0.75s; }
+  .cctv-cell:nth-child(9)  .cctv-dot { animation-delay: 1.05s; }
+  .cctv-cell:nth-child(10) .cctv-dot { animation-delay: 0.2s; }
+  .cctv-cell:nth-child(11) .cctv-dot { animation-delay: 0.5s; }
+  .cctv-cell:nth-child(12) .cctv-dot { animation-delay: 0.8s; }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.15; }
+  }
+  .hero-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(10,8,30,0.70) 0%, rgba(10,8,30,0.18) 70%, transparent 100%);
+    z-index: 1; pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 10;
+    text-align: center; max-width: 640px; padding: 30px 24px;
+  }
+  .hero-eyebrow {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 18px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    animation: fadeUp 0.8s ease 0.1s both;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; width: 24px; height: 2px;
+    background: var(--teal); border-radius: 2px;
+  }
+  .hero-content h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 46px; font-weight: 700; line-height: 1.12;
+    color: white; margin-bottom: 16px;
+    animation: fadeUp 0.8s ease 0.25s both;
+  }
+  .hero-content h1 em { font-style: italic; font-weight: 300; color: var(--teal); }
+  .hero-desc {
+    font-size: 14.5px; font-weight: 300;
+    color: rgba(255,255,255,0.72); line-height: 1.8;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════
+     ABOUT US
+  ══════════════════════════════ */
+  .about-section { background: var(--white); padding: 70px 60px; }
+  .about-inner { max-width: 1080px; margin: 0 auto; }
+  .about-heading {
+    font-family: 'Fraunces', serif;
+    font-size: 34px; font-weight: 700;
+    color: var(--ink); margin-bottom: 14px;
+  }
+  .about-divider {
+    width: 100%; height: 2px;
+    background: var(--border); margin-bottom: 44px;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 14.5px; line-height: 1.9;
+    color: var(--gray); margin-bottom: 16px;
+  }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-photo {
+    width: 100%; aspect-ratio: 4/3;
+    background: #c9d4e0;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: #8fa3ba; font-size: 13px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ══════════════════════════════
+     STORY SECTION
+  ══════════════════════════════ */
+  .story-section { background: var(--white); padding: 70px 60px; }
+  .story-inner { max-width: 1080px; margin: auto; }
+  .story-heading {
+    font-family: 'Fraunces', serif;
+    font-size: 34px; font-weight: 700;
+    color: var(--ink); margin-bottom: 14px;
+  }
+  .story-divider {
+    width: 100%; height: 2px;
+    background: var(--border); margin-bottom: 50px;
+  }
+  .story-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 60px;
+  }
+  .story-row.reverse { direction: rtl; }
+  .story-row.reverse .story-text { direction: ltr; }
+  .story-img {
+    width: 100%; aspect-ratio: 4/3;
+    overflow: hidden; border-radius: 6px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  }
+  .story-img img { width: 100%; height: 100%; object-fit: contain; }
+  .story-text h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 16px; margin-bottom: 12px; color: var(--ink);
+  }
+  .story-text p { font-size: 14.5px; line-height: 1.8; color: var(--gray); }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    background: #0a141f;
+    padding: 26px 20px;
+    text-align: center;
+  }
+  .footer-social {
+    display: flex; justify-content: center; gap: 22px; margin-bottom: 14px;
+  }
+  .footer-social a {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(255,255,255,.7); text-decoration: none;
+    font-size: 13.5px; font-weight: 500; transition: color .2s;
+  }
+  .footer-social a:hover { color: white; }
+  .footer-social svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
+  .footer-copy { color: rgba(255,255,255,.35); font-size: 12px; }
+
+  /* ══════════════════════════════
+     FADE IN
+  ══════════════════════════════ */
+  .fade { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+  .fade.show { opacity: 1; transform: none; }
+
+  /* ══════════════════════════════
+     RESPONSIVE — mobile only
+  ══════════════════════════════ */
+  @media (max-width: 768px) {
+    .hamburger-btn { display: flex; }
+    .navbar { display: none; }
+    .top-header { padding: 12px 60px 12px 20px; }
+  }
+  @media (max-width: 860px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-section, .story-section { padding: 50px 24px; }
+    .hero-content h1 { font-size: 30px; }
+    .story-row { grid-template-columns: 1fr; gap: 24px; }
+    .story-row.reverse { direction: ltr; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ══ TOP HEADER ══ -->
+  <div class="top-header">
+    <div class="header-inner">
+      <img src="./img/logo.png" alt="Rotary Logo">
+      <div class="top-title">Rotary ASEAN Youth Peacebuilders Programme Alumni Network </div>
+    </div>
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu" onclick="openDrawer()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- ══ navbar ══ -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+      <li><a href="member.html">Members</a></li>
+      <li><a href="#">Resources</a></li>
+      <li><a href="#">Media</a></li>
+      <li><a href="event.html">Events</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══ here is the yk ══ -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+  <!-- ══ ehh ══ -->
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div class="drawer-head-left">
+        <img src="./img/logo.png" alt="Rotary Logo">
+        <div class="drawer-head-text">
+          <div class="brand-top">Rotary · ASEAN</div>
+          <div class="brand-name">Alumni Network</div>
+        </div>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <nav class="drawer-nav">
+      <a href="index.html"><span>Home</span><i class="fa-solid fa-chevron-right chevron"></i></a>
+      <a href="about.html" class="active"><span>About Us</span><i class="fa-solid fa-chevron-right chevron"></i></a>
+      <a href="member.html"><span>Members</span><i class="fa-solid fa-chevron-right chevron"></i></a>
+      <a href="#"><span>Resources</span><i class="fa-solid fa-chevron-right chevron"></i></a>
+      <a href="#"><span>Media</span><i class="fa-solid fa-chevron-right chevron"></i></a>
+      <a href="event.html"><span>Events</span><i class="fa-solid fa-chevron-right chevron"></i></a>
+      <a href="contact.html"><span>Contact</span><i class="fa-solid fa-chevron-right chevron"></i></a>
+    </nav>
+
+    <div class="drawer-foot">
+      <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+      <a href="https://instagram.com/rayppalumninetwork" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      <a href="mailto:rayppalumninetwork@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+  </div>
+
+  <!-- ══ backgroound imagessss ══ -->
+  <section class="hero">
+    <div class="cctv-grid">
+      <div class="cctv-cell" style="background-image:url('./img/hero.JPG')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇵🇭</span><span class="cctv-name">Philippines</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero2.jpg')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇮🇩</span><span class="cctv-name">Indonesia</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero3.jpg')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇲🇾</span><span class="cctv-name">Malaysia</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/DSC04326.JPG')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇹🇭</span><span class="cctv-name">Thailand</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero.JPG')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇻🇳</span><span class="cctv-name">Vietnam</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero2.jpg')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇸🇬</span><span class="cctv-name">Singapore</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero3.jpg')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇲🇲</span><span class="cctv-name">Myanmar</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/DSC04326.JPG')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇰🇭</span><span class="cctv-name">Cambodia</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero.JPG')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇱🇦</span><span class="cctv-name">Laos</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero2.jpg')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇧🇳</span><span class="cctv-name">Brunei</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/hero3.jpg')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🇹🇱</span><span class="cctv-name">Timor-Leste</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+      <div class="cctv-cell" style="background-image:url('./img/DSC04326.JPG')">
+        <div class="cctv-overlay"></div>
+        <div class="cctv-label"><span class="cctv-flag">🌏</span><span class="cctv-name">ASEAN</span></div>
+        <div class="cctv-dot"></div>
+      </div>
+    </div>
+
+    <div class="hero-vignette"></div>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">Peacebuilding Network · ASEAN</span>
+      <h1>Building Peace <em>One</em> Young Voice at a Time</h1>
+      <p class="hero-desc">11 countries. One mission. Empowering the next generation of peacebuilders across ASEAN.</p>
+    </div>
+  </section>
+
+  <!-- ══ ABOUT US ══ -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <h2 class="about-heading">About Us</h2>
+      <div class="about-divider"></div>
+      <div class="about-grid fade">
+        <div class="about-text">
+          <p>The Rotary ASEAN Youth Peacebuilders Program (AYPP) Alumni Network is a growing, youth-led regional network of graduates of the AYPP who are committed to sustaining peacebuilding action across ASEAN.</p>
+          <p>Our members are young leaders, professionals, and practitioners working in and with communities affected by conflict, exclusion, and social division. We operate across sectors including civil society, education, governance, and community development while remaining grounded in Rotary's peacebuilding values.</p>
+          <p>The Alumni Network exists to ensure that peacebuilding does not end with the program, but continues through collaboration, mentorship, and collective action.</p>
+        </div>
+        <div class="about-photo">
+          <img src="./img/introoo.jpg" alt="Alumni Network group" onerror="this.style.display='none';this.parentElement.innerHTML='Photo'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ OUR STORY ══ -->
+  <section class="story-section">
+    <div class="story-inner">
+      <h2 class="story-heading">Our Story</h2>
+      <div class="story-divider"></div>
+
+      <div class="story-row fade">
+        <div class="story-img"><img src="./img/vietnam.jpg" alt="Vietnam"></div>
+        <div class="story-text">
+          <h4>Celebrating Vietnam</h4>
+          <p>Shaped by perseverance and collective strength, Vietnam's national story is rooted in unity and rebuilding. Vietnamese youth shared this perspective during the Rotary ASEAN Youth Peacebuilders Programme, highlighting peace through solidarity.</p>
+        </div>
+      </div>
+
+      <div class="story-row reverse fade">
+        <div class="story-img"><img src="./img/indo.jpg" alt="Indonesia"></div>
+        <div class="story-text">
+          <h4>Celebrating Indonesia</h4>
+          <p>Home to hundreds of ethnic groups and languages, Indonesia stands as a living example of unity in diversity. Its youth brought this national principle into the Rotary ASEAN Youth Peacebuilders Programme, showing how inclusion strengthens peace.</p>
+        </div>
+      </div>
+
+      <div class="story-row fade">
+        <div class="story-img"><img src="./img/timor.jpg" alt="Timor-Leste"></div>
+        <div class="story-text">
+          <h4>Celebrating Timor-Leste</h4>
+          <p>As one of ASEAN's youngest nations, Timor-Leste carries a powerful legacy of self-determination and reconciliation. Through the Rotary ASEAN Youth Peacebuilders Programme, its youth shared lessons shaped by healing and resilience.</p>
+        </div>
+      </div>
+
+      <div class="story-row reverse fade">
+        <div class="story-img"><img src="./img/thailand.jpg" alt="Thailand"></div>
+        <div class="story-text">
+          <h4>Celebrating Thailand</h4>
+          <p>Known for cultural grace, respect, and hospitality, Thailand values harmony in everyday life. Thai youth carried these principles into the Rotary ASEAN Youth Peacebuilders Programme, emphasizing empathy as a foundation for peace.</p>
+        </div>
+      </div>
+
+      <div class="story-row fade">
+        <div class="story-img"><img src="./img/philipines.jpg" alt="Philippines"></div>
+        <div class="story-text">
+          <h4>Celebrating Philippines</h4>
+          <p>A nation shaped by history, struggle, and strong community ties, the Philippines draws strength from bayanihan. This spirit guided Filipino youth participation in the Rotary ASEAN Youth Peacebuilders Programme.</p>
+        </div>
+      </div>
+
+      <div class="story-row reverse fade">
+        <div class="story-img"><img src="./img/myanmar.jpg" alt="Myanmar"></div>
+        <div class="story-text">
+          <h4>Celebrating Myanmar</h4>
+          <p>Rich in cultural heritage and spiritual traditions, Myanmar holds a deep emphasis on compassion and humanity. Through the Rotary ASEAN Youth Peacebuilders Programme, its youth voices reflected resilience, empathy, and hope.</p>
+        </div>
+      </div>
+
+      <div class="story-row fade">
+        <div class="story-img"><img src="./img/malaysia.jpg" alt="Malaysia"></div>
+        <div class="story-text">
+          <h4>Celebrating Malaysia</h4>
+          <p>Shaped by centuries of cultural exchange, Malaysia's identity is built on coexistence among diverse communities. During the Rotary ASEAN Youth Peacebuilders Programme, Malaysian youth highlighted dialogue as a daily practice of peace.</p>
+        </div>
+      </div>
+
+      <div class="story-row reverse fade">
+        <div class="story-img"><img src="./img/laos.jpg" alt="Laos & Singapore"></div>
+        <div class="story-text">
+          <h4>Celebrating Lao PDR & Singapore</h4>
+          <p>With a culture grounded in community, humility, and balance, Lao PDR reflects a quieter but deeply rooted approach to peace. Built on multiculturalism and shared responsibility, Singapore reflects how social cohesion is intentionally nurtured. Through the Rotary ASEAN Youth Peacebuilders Programme, both nations' youth emphasized dialogue, inclusion, and forward-looking peace.</p>
+        </div>
+      </div>
+
+      <div class="story-row fade">
+        <div class="story-img"><img src="./img/cambodia.jpg" alt="Cambodia"></div>
+        <div class="story-text">
+          <h4>Celebrating Cambodia</h4>
+          <p>From ancient civilizations to modern renewal, Cambodia carries a powerful story of survival and healing. Through the Rotary ASEAN Youth Peacebuilders Programme, Cambodian youth shared perspectives shaped by resilience, remembrance, and hope.</p>
+        </div>
+      </div>
+
+      <div class="story-row reverse fade">
+        <div class="story-img"><img src="./img/brunei.jpg" alt="Brunei"></div>
+        <div class="story-text">
+          <h4>Celebrating Brunei Darussalam</h4>
+          <p>Known for its strong traditions, social harmony, and deep respect for faith and culture, Brunei reflects how peace is sustained through stability, values, and mutual respect shared by its youth during the Rotary ASEAN Youth Peacebuilders Programme.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/rayppalumninetwork?igsh=MWQyY3lydzR0MDJndQ==" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 2.014 2.014.673 3.355.157 5.197.072 7.052.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.085 1.855.601 3.697 1.942 5.038 1.341 1.341 3.183 1.857 5.038 1.942C8.332 23.986 8.741 24 12 24s3.668-.014 4.948-.072c1.855-.085 3.697-.601 5.038-1.942 1.341-1.341 1.857-3.183 1.942-5.038.058-1.28.072-1.689.072-4.948s-.014-3.668-.072-4.948c-.085-1.855-.601-3.697-1.942-5.038C20.645.673 18.803.157 16.948.072 15.668.014 15.259 0 12 0zm0 5.838A6.162 6.162 0 0 0 5.838 12 6.162 6.162 0 0 0 12 18.162 6.162 6.162 0 0 0 18.162 12 6.162 6.162 0 0 0 12 5.838zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        Instagram
+      </a>
+      <a href="https://facebook.com" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        Facebook
+      </a>
+    </div>
+    <div class="footer-copy">© 2026 ROTARY-ASEAN Youth Peace-building Programme Alumni Network · All rights reserved</div>
+  </footer>
+
+  <script>
+    /* ── Drawer ── */
+    function openDrawer() {
+      document.getElementById('drawer').classList.add('open');
+      document.getElementById('drawerOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      document.getElementById('drawer').classList.remove('open');
+      document.getElementById('drawerOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+    /* ── CCTV reveal ── */
+    document.querySelectorAll('.cctv-cell').forEach((cell, i) => {
+      setTimeout(() => cell.classList.add('visible'), 150 + i * 200);
+    });
+
+    /* ── Scroll fade-in ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
